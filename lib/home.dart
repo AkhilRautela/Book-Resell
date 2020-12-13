@@ -1,3 +1,4 @@
+import 'package:bookresell/chatperperson.dart';
 import 'package:flutter/material.dart';
 import 'package:fluid_bottom_nav_bar/fluid_bottom_nav_bar.dart';
 import 'content.dart';
@@ -25,7 +26,7 @@ class HomeAct extends State<StatefulWidget>{
     }
     else{
       setState(() {
-        currentpage=Chats();
+        currentpage=Chatperperson();
       });
 
     }
