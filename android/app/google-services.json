@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "283509804494",
+    "project_id": "book-resell",
+    "storage_bucket": "book-resell.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:283509804494:android:60e49438df2ad63c74ef9f",
+        "android_client_info": {
+          "package_name": "com.example.bookresell"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "283509804494-goatumo3ruf1u5qn7bkjel037lfsmbu0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUybmLFeJTslFqYy-7Jtd8N8glM4aAxy0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "283509804494-goatumo3ruf1u5qn7bkjel037lfsmbu0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
