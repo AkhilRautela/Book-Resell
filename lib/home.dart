@@ -1,9 +1,15 @@
+import 'dart:io';
+
 import 'package:bookresell/chatperperson.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:fluid_bottom_nav_bar/fluid_bottom_nav_bar.dart';
 import 'content.dart';
 import 'package:bookresell/Camera.dart';
 import 'chats.dart';
+import 'package:bookresell/routes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dataofperson.dart';
 class Home extends StatefulWidget{
   @override
   State<StatefulWidget> createState() {
@@ -26,10 +32,32 @@ class HomeAct extends State<StatefulWidget>{
     }
     else{
       setState(() {
-        currentpage=Chatperperson();
+        currentpage=Chats();
       });
-
     }
+  }
+  Future <void> Logincheck() async{
+    SharedPreferences sp=await SharedPreferences.getInstance();
+    if(sp.containsKey("islogged")) {
+      if(sp.getBool("islogged")==true) {
+        String fetched=sp.getString("id");
+        CurrentUser.id=fetched.replaceAll(".", "_");
+        FirebaseDatabase db=FirebaseDatabase.instance;
+        var res= await db.reference().child('User').child(CurrentUser.id).once();
+        CurrentUser.name=res.value['name'];
+        print(CurrentUser.id+" "+CurrentUser.name);
+      }
+    }
+    else{
+      Navigator.of(context).popAndPushNamed('/login');
+    }
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    print("start");
+    Logincheck();
+    super.initState();
   }
   @override
   Widget build(BuildContext context) {
@@ -63,7 +91,7 @@ class HomeAct extends State<StatefulWidget>{
             iconBackgroundColor: Color(0xff6F6866),
           ),
         ),
-        ),
+        )
       );
   }
 

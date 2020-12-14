@@ -1,4 +1,4 @@
-String name;
-var dic=new Map();
-String formnow="";
-String tonow="";
+class CurrentUser{
+  static String id;
+  static String name;
+}

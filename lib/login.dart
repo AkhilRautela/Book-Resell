@@ -17,10 +17,10 @@ class LoginAct extends State<StatefulWidget>{
     if (res.user!=null){
       print('logged in as ');
       print(res.user.email);
-      SharedPreferences.setMockInitialValues({});
       SharedPreferences sp=await SharedPreferences.getInstance();
       sp.setBool("islogged", true);
       sp.setString("id",email);
+      Navigator.of(context).popAndPushNamed('/');
     }
   }
   void attemptlogin(){
@@ -105,7 +105,7 @@ class LoginAct extends State<StatefulWidget>{
                               height: 50.0,
                               child:
                               RaisedButton(
-                                onPressed: ()=>print("move to signup"),
+                                onPressed: ()=>{Navigator.of(context).pushNamed('/signup')},
                                 color: Colors.orange,
                                 child: Center(
                                     child:Text("Sign UP",
