@@ -43,8 +43,7 @@ class HomeAct extends State<StatefulWidget>{
         String fetched=sp.getString("id");
         CurrentUser.id=fetched.replaceAll(".", "_");
         FirebaseDatabase db=FirebaseDatabase.instance;
-        var res= await db.reference().child('User').child(CurrentUser.id).once();
-        CurrentUser.name=res.value['name'];
+        var res= Getname.getname(CurrentUser.id);
         print(CurrentUser.id+" "+CurrentUser.name);
       }
     }
@@ -61,9 +60,7 @@ class HomeAct extends State<StatefulWidget>{
   }
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return Scaffold(
         body: currentpage,
         backgroundColor: Color(0xffCCDAD1),
         drawer: Drawer(
@@ -91,8 +88,7 @@ class HomeAct extends State<StatefulWidget>{
             iconBackgroundColor: Color(0xff6F6866),
           ),
         ),
-        )
-      );
+        );
   }
 
 }

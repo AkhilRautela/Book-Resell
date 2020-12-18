@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -44,42 +45,72 @@ class CameraData extends State<StatefulWidget> {
   }
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          Container(
-            width: 100,
-            height: 200,
-            child: chk?Image.file(myimage):Center(
-              child:Text("Image Not Selected")
-            ),
+    return Center(
+      child:Container(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                height: 500,
+                child: chk?Image.file(myimage):Center(
+                    child:Text("Image Not Selected")
+                ),
+              ),
+             SizedBox(
+               height: 10,
+             ),
+             Container(
+               height:20,
+               child:  Row(
+                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                 children: [
+                   Flexible(child: TextField(
+                     onChanged: (text)=>{},
+                     decoration: InputDecoration(
+                       hintText: "BOOK NAME",
+                     ),
+                    ),
+                   ),
+                   Flexible(child: TextField(
+                     onChanged: (text)=>{},
+                     decoration: InputDecoration(
+                       hintText: "LOCATION",
+                     ),
+                   ),
+                   ),
+                 ],
+               ),
+             ),
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SizedBox(
+                        child: RaisedButton(
+                          onPressed: ()=> {select_image()},
+                          child: Text("Camera"),
+                        )
+                    ),
+                    SizedBox(
+                        child:RaisedButton(
+                            onPressed: () => {select_image_gallery()},
+                            child: Text("Gallery")
+                        )
+                    ),
+                    SizedBox(
+                        child:RaisedButton(
+                            onPressed: ()=> {upload_image()},
+                            child: Text("Upload")
+                        )
+                    )
+                  ],
+                ),
+              )
+            ],
           ),
-          Container(
-            child: Row(
-              children: [
-                SizedBox(
-                  child: RaisedButton(
-                    onPressed: ()=> {select_image()},
-                    child: Text("Camera"),
-                  )
-                ),
-                SizedBox(
-                  child:RaisedButton(
-                    onPressed: () => {select_image_gallery()},
-                    child: Text("Gallery")
-                  )
-                ),
-                SizedBox(
-                  child:RaisedButton(
-                    onPressed: ()=> {upload_image()},
-                    child: Text("Upload")
-                  )
-                )
-              ],
-            ),
-          )
-        ],
-      )
+      ),
     );
   }
 

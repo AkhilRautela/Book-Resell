@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bookresell/dataofperson.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
@@ -8,12 +9,11 @@ class Chatperperson extends StatefulWidget{
   State<StatefulWidget> createState() {
     return ChatOne();
   }
-
 }
 
 class ChatOne extends State<StatefulWidget> {
-  String from="ak@gmail_com";
-  String to="boss@gmail_com";
+  String from=CurrentChat.from_id;
+  String to=CurrentChat.to_id;
   String curmessage;
   var messages=[];
   final textcontrol=TextEditingController();
@@ -45,67 +45,71 @@ class ChatOne extends State<StatefulWidget> {
   }
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(0,30, 0, 10),
-        child: Column(
-          children: [
-            Expanded(
-              flex: 1,
-                child: Row(
-                  children: [
-                    Text(to)
-                  ],
-                ),
-            ),
-            Expanded(
-              flex: 5,
-                child: SizedBox(
-                  height: 600,
-                  child: Expanded(
-                    child: ListView.builder(
-                        itemCount: messages.length,
-                        itemBuilder: (context,idx){
-                          return Container(
-                            child: Center(
-                                child:Text(messages[idx][1])
-                            )
-                          );
-                        }
-                    ),
+    return MaterialApp(
+      home: Scaffold(
+        body: Container(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(0,30, 0, 10),
+            child: Column(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Row(
+                    children: [
+                      Text(to)
+                    ],
                   ),
                 ),
-            ),
-            Expanded(
-              flex:1,
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: SizedBox(
-                      height: 100,
-                      child: TextField(
-                        onChanged: (text)=>{curmessage=text},
-                        controller: textcontrol,
+                Expanded(
+                  flex: 5,
+                  child: SizedBox(
+                    height: 500,
+                    child: Expanded(
+                      child: ListView.builder(
+                          itemCount: messages.length,
+                          itemBuilder: (context,idx){
+                            return Container(
+                                child: Center(
+                                    child:Text(messages[idx][1])
+                                )
+                            );
+                          }
                       ),
                     ),
                   ),
-                  Expanded(
-                    flex: 1,
-                    child:  SizedBox(
-                        height: 100,
-                        child:RaisedButton(
-                          onPressed: ()=>{add_message(curmessage)},
-                          child:Text("Send Message")
-                        )
-                    ),
-                  )
-                ],
-              ),
-            )
-          ],
+                ),
+                Expanded(
+                  flex:1,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: SizedBox(
+                          height: 100,
+                          child: TextField(
+                            onChanged: (text)=>{curmessage=text},
+                            controller: textcontrol,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child:  SizedBox(
+                            height: 100,
+                            child:RaisedButton(
+                                onPressed: ()=>{add_message(curmessage)},
+                                child:Text("Send Message")
+                            )
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
         ),
-      )
+      ),
     );
   }
 
