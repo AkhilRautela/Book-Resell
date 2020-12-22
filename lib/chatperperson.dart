@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bookresell/dataofperson.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Chatperperson extends StatefulWidget{
@@ -20,6 +21,7 @@ class ChatOne extends State<StatefulWidget> {
   var databaseinstance=FirebaseDatabase.instance;
   Future <void> refresh_messages() async{
     messages=[];
+    print(from+" "+to);
     var heremessage=await databaseinstance.reference().child('User').child(from).child("messages").child(to).once();
     Timer(Duration(seconds: 3), () {
       refresh_messages();
@@ -46,32 +48,52 @@ class ChatOne extends State<StatefulWidget> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
+        backgroundColor: Color(0xff444B6E),
         body: Container(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(0,30, 0, 10),
+            padding: EdgeInsets.fromLTRB(10,30, 10, 10),
             child: Column(
               children: [
                 Expanded(
                   flex: 1,
-                  child: Row(
-                    children: [
-                      Text(to)
-                    ],
-                  ),
+                  child: Container(
+                        color: Color(0xff9AB87A),
+                        child:Padding(
+                          padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              CircleAvatar(
+                                child: Text(CurrentChat.to_name[0].toUpperCase()) ,
+                              ),
+                              Text(CurrentChat.to_name, style: TextStyle(
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 30
+                              )
+                              ),
+                            ],
+                          ),
+                        )
+                      )
                 ),
                 Expanded(
-                  flex: 5,
+                  flex: 7,
                   child: SizedBox(
                     height: 500,
                     child: Expanded(
                       child: ListView.builder(
                           itemCount: messages.length,
                           itemBuilder: (context,idx){
-                            return Container(
-                                child: Center(
-                                    child:Text(messages[idx][1])
-                                )
+                            return Padding(
+                              padding: messages[idx][0][messages[idx][0].length-1]=='m'?EdgeInsets.fromLTRB(100,10,10,10):EdgeInsets.fromLTRB(10,10,100,10),
+                              child: Container(
+                                  color: Color(0xffF8F991),
+                                  child: Center(
+                                      child:Text(messages[idx][1])
+                                  )
+                              ),
                             );
                           }
                       ),
@@ -97,6 +119,7 @@ class ChatOne extends State<StatefulWidget> {
                         child:  SizedBox(
                             height: 100,
                             child:RaisedButton(
+                                color: Color(0xff6592B8),
                                 onPressed: ()=>{add_message(curmessage)},
                                 child:Text("Send Message")
                             )

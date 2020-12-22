@@ -19,6 +19,9 @@ class Home extends StatefulWidget{
 class HomeAct extends State<StatefulWidget>{
   int curidx=0;
   dynamic currentpage=Content();
+  void makehimlogout(){
+    print("logout");
+  }
   void set_idx_back(int idx){
     if(idx==0){
       setState(() {
@@ -42,9 +45,14 @@ class HomeAct extends State<StatefulWidget>{
       if(sp.getBool("islogged")==true) {
         String fetched=sp.getString("id");
         CurrentUser.id=fetched.replaceAll(".", "_");
+        CurrentChat.from_id=CurrentUser.id;
         FirebaseDatabase db=FirebaseDatabase.instance;
-        var res= Getname.getname(CurrentUser.id);
-        print(CurrentUser.id+" "+CurrentUser.name);
+        var res=await db.reference().child("User").child(CurrentUser.id).once();
+        CurrentUser.name=res.value['name'];
+       // print(CurrentUser.id+" "+CurrentUser.name);
+        setState(() {
+
+        });
       }
     }
     else{
@@ -65,9 +73,25 @@ class HomeAct extends State<StatefulWidget>{
         body: currentpage,
         backgroundColor: Color(0xffCCDAD1),
         drawer: Drawer(
-          child: UserAccountsDrawerHeader(
-            accountEmail: Text("fkdjfkjd"),
-            accountName: Text("dfdskafs"),
+          child:ListView(
+            children: [
+              UserAccountsDrawerHeader(
+                accountName: Text(CurrentUser.id.replaceAll('_', '.')),
+                currentAccountPicture: CircleAvatar(
+                  child: Text(CurrentUser.id[0].toUpperCase()),
+                ),
+              ),
+              Divider(
+                thickness: 0.5,
+              ),
+              RaisedButton(
+                color: Color(0xff6592B8),
+                onPressed: ()=>{makehimlogout()},
+                child: Text(
+                  "Logout"
+                ),
+              )
+            ],
           )
         ),
 

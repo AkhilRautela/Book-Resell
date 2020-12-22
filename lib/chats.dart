@@ -15,16 +15,19 @@ class Chats extends StatefulWidget{
 class Chatsdata extends State<StatefulWidget> {
   var message_user_id=[];
   var message_user_name=[];
-  void chatwith(idx){
+  void chatwith(idx) async{
     CurrentChat.from_id=CurrentUser.id;
     CurrentChat.to_id=message_user_id[idx];
+    CurrentChat.to_name=await Getname.getname(message_user_id[idx]);
     Navigator.of(context).pushNamed('/chat');
   }
   Future <void> getpeople() async{
     FirebaseDatabase fd=FirebaseDatabase.instance;
     message_user_id=[];
     message_user_name=[];
+    print(CurrentUser.id);
     var res=await fd.reference().child('User').child(CurrentUser.id).child('messages').once();
+    print(res.value);
     res.value.forEach((x,y)=>{
       if(x!=CurrentUser.id) message_user_id.add(x)
     });
@@ -64,7 +67,6 @@ class Chatsdata extends State<StatefulWidget> {
                           child: Text(message_user_name[idx][0]),
                         ),
                         title: Text(message_user_name[idx]),
-                        subtitle: Text("last message"),
                         onTap: ()=>{chatwith(idx)},
                     )
                 );

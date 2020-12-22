@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:bookresell/dataofperson.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
@@ -12,18 +14,48 @@ class Content extends StatefulWidget{
 }
 
 class ContentData extends State<StatefulWidget> {
-  var arr=[];
+  var arrdownloadlink=[];
+  var arrname=[];
+  var arrid=[];
+  var arrbookname=[];
+  var arrlocation=[];
+  void letsbuy(idx) {
+    print(arrid);
+    CurrentChat.to_id=arrid[idx];
+    CurrentChat.to_name=arrname[idx];
+    Navigator.of(context).pushNamed('/chat');
+  }
   void getdatafirst() async{
-    arr=[];
-    final FirebaseStorage inst=FirebaseStorage.instance;
-    var res=await inst.ref().child('bookresellapp').listAll();
-    var allitems=res.items;
-    for(int i=0;i<allitems.length;i++){
-      arr.add(await allitems[i].getDownloadURL());
+    arrname=[];
+    arrid=[];
+    arrdownloadlink=[];
+    arrbookname=[];
+    arrlocation=[];
+    FirebaseDatabase fd=FirebaseDatabase.instance;
+    FirebaseStorage fs=FirebaseStorage.instance;
+    var res=await fd.reference().child("User").once();
+    var alluserdata=res.value;
+    for(var x in alluserdata.keys){
+        var y=alluserdata[x];
+        if(!y.containsKey('Uploads')) {
+          continue;
+        }
+        for(var z in y["Uploads"].keys){
+          var w=y['Uploads'][z];
+        //  print(z); print(w);
+          String downloadurl=await fs.ref().child("bookresellapp").child(x).child(z).getDownloadURL();
+          arrid.add(x);
+          arrname.add(y['name']);
+          arrdownloadlink.add(downloadurl);
+          arrbookname.add(w['bookname']);
+          arrlocation.add(w['location']);
+          //print("pehle");
+        }
     }
-    arr.reversed;
-    if (arr.length==0){
-      arr.add("https://i.pinimg.com/originals/c9/22/68/c92268d92cf2dbf96e3195683d9e14fb.png");
+    //print(arrdownloadlink);
+    //print("baad main");
+    if (arrdownloadlink.length==0){
+      arrdownloadlink.add("https://i.pinimg.com/originals/c9/22/68/c92268d92cf2dbf96e3195683d9e14fb.png");
     }
     setState(() {
     });
@@ -43,7 +75,7 @@ class ContentData extends State<StatefulWidget> {
             child: LiquidPullToRefresh(
                 onRefresh: updateData,
                 child:ListView.builder(
-                    itemCount: arr.length,
+                    itemCount: arrbookname.length,
                     itemBuilder: (context,idx){
                       return Container(
                           margin: EdgeInsets.fromLTRB(0,10,0,10),
@@ -61,23 +93,24 @@ class ContentData extends State<StatefulWidget> {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     CircleAvatar(
-                                      child: Text("A"),
+                                      child: Text(arrname[idx][0]),
                                       foregroundColor: Colors.red,
                                     ),
-                                    Text("Location")
+                                    Text(arrname[idx]),
+                                    Text(arrlocation[idx])
                                   ],
                                 ),
-                                Text("Book Name"),
+                                Text(arrbookname[idx]),
                                 SizedBox(
                                   height:10,
                                 ),
-                                Image.network(arr[idx]),
+                                Image.network(arrdownloadlink[idx]),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                   children: [
                                     RaisedButton(
                                         color: Color(0xff6592B8),
-                                        onPressed: ()=>print("buy"),
+                                        onPressed: ()=>{letsbuy(idx)},
                                         child: Text("Buy")
                                     )
                                   ],
