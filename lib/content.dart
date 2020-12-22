@@ -67,13 +67,16 @@ class ContentData extends State<StatefulWidget> {
                                     Text("Location")
                                   ],
                                 ),
-                                Image.network(arr[idx]),
                                 Text("Book Name"),
+                                SizedBox(
+                                  height:10,
+                                ),
+                                Image.network(arr[idx]),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    Text("Price"),
                                     RaisedButton(
+                                        color: Color(0xff6592B8),
                                         onPressed: ()=>print("buy"),
                                         child: Text("Buy")
                                     )

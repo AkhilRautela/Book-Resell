@@ -29,6 +29,7 @@ class SignAct extends State<StatefulWidget>{
         email=email.replaceAll('.','_');
         print(email);
         await fd.reference().child('User').child(email).child("name").set(name);
+
       }
       }
       catch(e){

@@ -61,6 +61,7 @@ class HomeAct extends State<StatefulWidget>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
         body: currentpage,
         backgroundColor: Color(0xffCCDAD1),
         drawer: Drawer(
