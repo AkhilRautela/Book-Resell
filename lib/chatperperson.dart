@@ -23,7 +23,7 @@ class ChatOne extends State<StatefulWidget> {
     messages=[];
     print(from+" "+to);
     var heremessage=await databaseinstance.reference().child('User').child(from).child("messages").child(to).once();
-    Timer(Duration(seconds: 3), () {
+    Timer(Duration(seconds: 1), () {
       refresh_messages();
       var mapofmessage=heremessage.value;
       mapofmessage.forEach((a,b)=>{messages.add([a,b])});
@@ -89,9 +89,26 @@ class ChatOne extends State<StatefulWidget> {
                             return Padding(
                               padding: messages[idx][0][messages[idx][0].length-1]=='m'?EdgeInsets.fromLTRB(100,10,10,10):EdgeInsets.fromLTRB(10,10,100,10),
                               child: Container(
-                                  color: Color(0xffF8F991),
-                                  child: Center(
-                                      child:Text(messages[idx][1])
+                                  decoration: BoxDecoration(
+                                    color: Color(0xffF8F991),
+                                    borderRadius: messages[idx][0][messages[idx][0].length-1]=='m'?BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(0),
+                                      bottomLeft:  Radius.circular(20),
+                                      bottomRight:  Radius.circular(20),
+                                    ):
+                                    BorderRadius.only(
+                                      topLeft: Radius.circular(0),
+                                      topRight: Radius.circular(20),
+                                      bottomLeft:  Radius.circular(20),
+                                      bottomRight:  Radius.circular(20),
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                                    child:  Center(
+                                        child:Text(messages[idx][1])
+                                    ),
                                   )
                               ),
                             );
@@ -117,7 +134,7 @@ class ChatOne extends State<StatefulWidget> {
                       Expanded(
                         flex: 1,
                         child:  SizedBox(
-                            height: 100,
+                            height: 50,
                             child:RaisedButton(
                                 color: Color(0xff6592B8),
                                 onPressed: ()=>{add_message(curmessage)},
