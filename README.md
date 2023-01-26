@@ -1,10 +1,13 @@
-# bookresell
+ <h1> BookResell </h1>
 
-A new Flutter application.
-The App is build for selling your old books By uploading them to this platform and the person who wanted to read the books can easily get connected you via inbuilt chat.<br>
-For Database I have used Firebase Realtime Database.<br>
-For Storing Images Fireabase Storage. <br>
-For Authentication used Firebase Authentication and Shared Preferences.<br>
+<h2> A Flutter application with the following features:- </h2> 
+<ul>
+<li> The App is build for selling your old books By uploading them to this platform and the person who wanted to read the books can easily get connected you via inbuilt chat </li>
+  <li> For Database I have used Firebase Realtime Database </li>
+  <li> For Storing Images Fireabase Storage </li>
+  <li> For Authentication used Firebase Authentication and Shared Preferences </li>
+  
+  </ul>
 
 #### HERE ARE THE WORK SAMPLE
 
